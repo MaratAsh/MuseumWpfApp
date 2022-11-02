@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="13f14585d0884f27b27c2676cfba3e53" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="museumModel.Author" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="museumModel.Company" Width="1.5" PointX="3" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="museumModel.Contact" Width="1.5" PointX="0.75" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="museumModel.Country" Width="1.5" PointX="1.5" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="museumModel.Exhibition" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="museumModel.InnerAction" Width="1.5" PointX="8.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="museumModel.Item" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="museumModel.OuterAction" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="museumModel.Set" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
+        <AssociationConnector Association="museumModel.FK_Authors_Country" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.FK_Item_Author" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.FK_Companies_Contact" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.FK_OuterActions_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.FK_OuterActions_Exhibition" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.FK_InnerActions_Item" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.FK_InnerActions_Set" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.FK_OuterActions_Item" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.FK_OuterActions_Set" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.ExhibitionItems" ManuallyRouted="false" />
+        <AssociationConnector Association="museumModel.ExhibitionSets" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

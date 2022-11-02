@@ -1,0 +1,20 @@
+﻿<Window x:Class="MuseumWpfApp.Windows.ContactsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MuseumWpfApp.Windows"
+        mc:Ignorable="d"
+        Title="ContactsWindow" Height="450" Width="600">
+    <Grid>
+        <DataGrid x:Name="Contacts" AutoGenerateColumns="False" IsEnabled="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding phone}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding lastname}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding firstname}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding patronymic}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

@@ -1,0 +1,752 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="museumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lastname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="firstname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="patronymic" Type="varchar" MaxLength="50" />
+          <Property Name="birthdate" Type="date" Nullable="false" />
+          <Property Name="country_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="address" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="contact_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Contacts">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="lastname" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="firstname" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="patronymic" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="ExhibitionItems">
+          <Key>
+            <PropertyRef Name="exhibition_id" />
+            <PropertyRef Name="item_id" />
+          </Key>
+          <Property Name="exhibition_id" Type="int" Nullable="false" />
+          <Property Name="item_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Exhibitions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="start_date" Type="datetime" Nullable="false" />
+          <Property Name="end_date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ExhibitionSets">
+          <Key>
+            <PropertyRef Name="exhibition_id" />
+            <PropertyRef Name="set_id" />
+          </Key>
+          <Property Name="exhibition_id" Type="int" Nullable="false" />
+          <Property Name="set_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InnerActions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="set_id" Type="int" />
+          <Property Name="item_id" Type="int" />
+          <Property Name="description" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Items">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="creation_date" Type="date" Nullable="false" />
+          <Property Name="creation_date_accuracy" Type="bit" Nullable="false" />
+          <Property Name="author_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OuterActions">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="set_id" Type="int" />
+          <Property Name="item_id" Type="int" />
+          <Property Name="company_id" Type="int" Nullable="false" />
+          <Property Name="exhibition_id" Type="int" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sets">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Authors_Country">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="1" />
+          <End Role="Authors" Type="Self.Authors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Authors">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Companies_Contact">
+          <End Role="Contacts" Type="Self.Contacts" Multiplicity="1" />
+          <End Role="Companies" Type="Self.Companies" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contacts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="contact_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExhibitionItems_Exhibition">
+          <End Role="Exhibitions" Type="Self.Exhibitions" Multiplicity="1" />
+          <End Role="ExhibitionItems" Type="Self.ExhibitionItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exhibitions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExhibitionItems">
+              <PropertyRef Name="exhibition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExhibitionItems_Item">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="ExhibitionItems" Type="Self.ExhibitionItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExhibitionItems">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExhibitionSets_Exhibition">
+          <End Role="Exhibitions" Type="Self.Exhibitions" Multiplicity="1" />
+          <End Role="ExhibitionSets" Type="Self.ExhibitionSets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exhibitions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExhibitionSets">
+              <PropertyRef Name="exhibition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ExhibitionSets_Set">
+          <End Role="Sets" Type="Self.Sets" Multiplicity="1" />
+          <End Role="ExhibitionSets" Type="Self.ExhibitionSets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sets">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ExhibitionSets">
+              <PropertyRef Name="set_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InnerActions_Item">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="InnerActions" Type="Self.InnerActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InnerActions">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InnerActions_Set">
+          <End Role="Sets" Type="Self.Sets" Multiplicity="0..1" />
+          <End Role="InnerActions" Type="Self.InnerActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sets">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InnerActions">
+              <PropertyRef Name="set_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_Author">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="1" />
+          <End Role="Items" Type="Self.Items" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="author_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OuterActions_Company">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="OuterActions" Type="Self.OuterActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OuterActions">
+              <PropertyRef Name="company_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OuterActions_Exhibition">
+          <End Role="Exhibitions" Type="Self.Exhibitions" Multiplicity="1" />
+          <End Role="OuterActions" Type="Self.OuterActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exhibitions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OuterActions">
+              <PropertyRef Name="exhibition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OuterActions_Item">
+          <End Role="Items" Type="Self.Items" Multiplicity="0..1" />
+          <End Role="OuterActions" Type="Self.OuterActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OuterActions">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OuterActions_Set">
+          <End Role="Sets" Type="Self.Sets" Multiplicity="0..1" />
+          <End Role="OuterActions" Type="Self.OuterActions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sets">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OuterActions">
+              <PropertyRef Name="set_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="museumModelStoreContainer">
+          <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Contacts" EntityType="Self.Contacts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExhibitionItems" EntityType="Self.ExhibitionItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Exhibitions" EntityType="Self.Exhibitions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ExhibitionSets" EntityType="Self.ExhibitionSets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InnerActions" EntityType="Self.InnerActions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OuterActions" EntityType="Self.OuterActions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sets" EntityType="Self.Sets" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Authors_Country" Association="Self.FK_Authors_Country">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Authors" EntitySet="Authors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Companies_Contact" Association="Self.FK_Companies_Contact">
+            <End Role="Contacts" EntitySet="Contacts" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExhibitionItems_Exhibition" Association="Self.FK_ExhibitionItems_Exhibition">
+            <End Role="Exhibitions" EntitySet="Exhibitions" />
+            <End Role="ExhibitionItems" EntitySet="ExhibitionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExhibitionItems_Item" Association="Self.FK_ExhibitionItems_Item">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="ExhibitionItems" EntitySet="ExhibitionItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExhibitionSets_Exhibition" Association="Self.FK_ExhibitionSets_Exhibition">
+            <End Role="Exhibitions" EntitySet="Exhibitions" />
+            <End Role="ExhibitionSets" EntitySet="ExhibitionSets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ExhibitionSets_Set" Association="Self.FK_ExhibitionSets_Set">
+            <End Role="Sets" EntitySet="Sets" />
+            <End Role="ExhibitionSets" EntitySet="ExhibitionSets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InnerActions_Item" Association="Self.FK_InnerActions_Item">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="InnerActions" EntitySet="InnerActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InnerActions_Set" Association="Self.FK_InnerActions_Set">
+            <End Role="Sets" EntitySet="Sets" />
+            <End Role="InnerActions" EntitySet="InnerActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_Author" Association="Self.FK_Item_Author">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OuterActions_Company" Association="Self.FK_OuterActions_Company">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="OuterActions" EntitySet="OuterActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OuterActions_Exhibition" Association="Self.FK_OuterActions_Exhibition">
+            <End Role="Exhibitions" EntitySet="Exhibitions" />
+            <End Role="OuterActions" EntitySet="OuterActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OuterActions_Item" Association="Self.FK_OuterActions_Item">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="OuterActions" EntitySet="OuterActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OuterActions_Set" Association="Self.FK_OuterActions_Set">
+            <End Role="Sets" EntitySet="Sets" />
+            <End Role="OuterActions" EntitySet="OuterActions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="museumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="birthdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="country_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Country" Relationship="Self.FK_Authors_Country" FromRole="Authors" ToRole="Countries" />
+          <NavigationProperty Name="Items" Relationship="Self.FK_Item_Author" FromRole="Authors" ToRole="Items" />
+        </EntityType>
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contact_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Contact" Relationship="Self.FK_Companies_Contact" FromRole="Companies" ToRole="Contacts" />
+          <NavigationProperty Name="OuterActions" Relationship="Self.FK_OuterActions_Company" FromRole="Companies" ToRole="OuterActions" />
+        </EntityType>
+        <EntityType Name="Contact">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="lastname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="firstname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="patronymic" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Companies" Relationship="Self.FK_Companies_Contact" FromRole="Contacts" ToRole="Companies" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Authors" Relationship="Self.FK_Authors_Country" FromRole="Countries" ToRole="Authors" />
+        </EntityType>
+        <EntityType Name="Exhibition">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="start_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="end_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="OuterActions" Relationship="Self.FK_OuterActions_Exhibition" FromRole="Exhibitions" ToRole="OuterActions" />
+          <NavigationProperty Name="Items" Relationship="Self.ExhibitionItems" FromRole="Exhibitions" ToRole="Items" />
+          <NavigationProperty Name="Sets" Relationship="Self.ExhibitionSets" FromRole="Exhibitions" ToRole="Sets" />
+        </EntityType>
+        <EntityType Name="InnerAction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="set_id" Type="Int32" />
+          <Property Name="item_id" Type="Int32" />
+          <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_InnerActions_Item" FromRole="InnerActions" ToRole="Items" />
+          <NavigationProperty Name="Set" Relationship="Self.FK_InnerActions_Set" FromRole="InnerActions" ToRole="Sets" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="creation_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="creation_date_accuracy" Type="Boolean" Nullable="false" />
+          <Property Name="author_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Author" Relationship="Self.FK_Item_Author" FromRole="Items" ToRole="Authors" />
+          <NavigationProperty Name="InnerActions" Relationship="Self.FK_InnerActions_Item" FromRole="Items" ToRole="InnerActions" />
+          <NavigationProperty Name="OuterActions" Relationship="Self.FK_OuterActions_Item" FromRole="Items" ToRole="OuterActions" />
+          <NavigationProperty Name="Exhibitions" Relationship="Self.ExhibitionItems" FromRole="Items" ToRole="Exhibitions" />
+        </EntityType>
+        <EntityType Name="OuterAction">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="set_id" Type="Int32" />
+          <Property Name="item_id" Type="Int32" />
+          <Property Name="company_id" Type="Int32" Nullable="false" />
+          <Property Name="exhibition_id" Type="Int32" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_OuterActions_Company" FromRole="OuterActions" ToRole="Companies" />
+          <NavigationProperty Name="Exhibition" Relationship="Self.FK_OuterActions_Exhibition" FromRole="OuterActions" ToRole="Exhibitions" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_OuterActions_Item" FromRole="OuterActions" ToRole="Items" />
+          <NavigationProperty Name="Set" Relationship="Self.FK_OuterActions_Set" FromRole="OuterActions" ToRole="Sets" />
+        </EntityType>
+        <EntityType Name="Set">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="InnerActions" Relationship="Self.FK_InnerActions_Set" FromRole="Sets" ToRole="InnerActions" />
+          <NavigationProperty Name="OuterActions" Relationship="Self.FK_OuterActions_Set" FromRole="Sets" ToRole="OuterActions" />
+          <NavigationProperty Name="Exhibitions" Relationship="Self.ExhibitionSets" FromRole="Sets" ToRole="Exhibitions" />
+        </EntityType>
+        <Association Name="FK_Authors_Country">
+          <End Role="Countries" Type="Self.Country" Multiplicity="1" />
+          <End Role="Authors" Type="Self.Author" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Authors">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Item_Author">
+          <End Role="Authors" Type="Self.Author" Multiplicity="1" />
+          <End Role="Items" Type="Self.Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Items">
+              <PropertyRef Name="author_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Companies_Contact">
+          <End Role="Contacts" Type="Self.Contact" Multiplicity="1" />
+          <End Role="Companies" Type="Self.Company" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Contacts">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Companies">
+              <PropertyRef Name="contact_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OuterActions_Company">
+          <End Role="Companies" Type="Self.Company" Multiplicity="1" />
+          <End Role="OuterActions" Type="Self.OuterAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OuterActions">
+              <PropertyRef Name="company_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OuterActions_Exhibition">
+          <End Role="Exhibitions" Type="Self.Exhibition" Multiplicity="1" />
+          <End Role="OuterActions" Type="Self.OuterAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Exhibitions">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OuterActions">
+              <PropertyRef Name="exhibition_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InnerActions_Item">
+          <End Role="Items" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="InnerActions" Type="Self.InnerAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InnerActions">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InnerActions_Set">
+          <End Role="Sets" Type="Self.Set" Multiplicity="0..1" />
+          <End Role="InnerActions" Type="Self.InnerAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sets">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="InnerActions">
+              <PropertyRef Name="set_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OuterActions_Item">
+          <End Role="Items" Type="Self.Item" Multiplicity="0..1" />
+          <End Role="OuterActions" Type="Self.OuterAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OuterActions">
+              <PropertyRef Name="item_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OuterActions_Set">
+          <End Role="Sets" Type="Self.Set" Multiplicity="0..1" />
+          <End Role="OuterActions" Type="Self.OuterAction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sets">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="OuterActions">
+              <PropertyRef Name="set_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ExhibitionItems">
+          <End Role="Exhibitions" Type="Self.Exhibition" Multiplicity="*" />
+          <End Role="Items" Type="Self.Item" Multiplicity="*" />
+        </Association>
+        <Association Name="ExhibitionSets">
+          <End Role="Exhibitions" Type="Self.Exhibition" Multiplicity="*" />
+          <End Role="Sets" Type="Self.Set" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="museumEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Authors" EntityType="Self.Author" />
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="Countries" EntityType="Self.Country" />
+          <EntitySet Name="Exhibitions" EntityType="Self.Exhibition" />
+          <EntitySet Name="InnerActions" EntityType="Self.InnerAction" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="OuterActions" EntityType="Self.OuterAction" />
+          <EntitySet Name="Sets" EntityType="Self.Set" />
+          <AssociationSet Name="FK_Authors_Country" Association="Self.FK_Authors_Country">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Authors" EntitySet="Authors" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Item_Author" Association="Self.FK_Item_Author">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Companies_Contact" Association="Self.FK_Companies_Contact">
+            <End Role="Contacts" EntitySet="Contacts" />
+            <End Role="Companies" EntitySet="Companies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OuterActions_Company" Association="Self.FK_OuterActions_Company">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="OuterActions" EntitySet="OuterActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OuterActions_Exhibition" Association="Self.FK_OuterActions_Exhibition">
+            <End Role="Exhibitions" EntitySet="Exhibitions" />
+            <End Role="OuterActions" EntitySet="OuterActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InnerActions_Item" Association="Self.FK_InnerActions_Item">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="InnerActions" EntitySet="InnerActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InnerActions_Set" Association="Self.FK_InnerActions_Set">
+            <End Role="Sets" EntitySet="Sets" />
+            <End Role="InnerActions" EntitySet="InnerActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OuterActions_Item" Association="Self.FK_OuterActions_Item">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="OuterActions" EntitySet="OuterActions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OuterActions_Set" Association="Self.FK_OuterActions_Set">
+            <End Role="Sets" EntitySet="Sets" />
+            <End Role="OuterActions" EntitySet="OuterActions" />
+          </AssociationSet>
+          <AssociationSet Name="ExhibitionItems" Association="Self.ExhibitionItems">
+            <End Role="Exhibitions" EntitySet="Exhibitions" />
+            <End Role="Items" EntitySet="Items" />
+          </AssociationSet>
+          <AssociationSet Name="ExhibitionSets" Association="Self.ExhibitionSets">
+            <End Role="Exhibitions" EntitySet="Exhibitions" />
+            <End Role="Sets" EntitySet="Sets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="museumModelStoreContainer" CdmEntityContainer="museumEntities">
+          <EntitySetMapping Name="Authors">
+            <EntityTypeMapping TypeName="museumModel.Author">
+              <MappingFragment StoreEntitySet="Authors">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+                <ScalarProperty Name="birthdate" ColumnName="birthdate" />
+                <ScalarProperty Name="country_id" ColumnName="country_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="museumModel.Company">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="contact_id" ColumnName="contact_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contacts">
+            <EntityTypeMapping TypeName="museumModel.Contact">
+              <MappingFragment StoreEntitySet="Contacts">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="lastname" ColumnName="lastname" />
+                <ScalarProperty Name="firstname" ColumnName="firstname" />
+                <ScalarProperty Name="patronymic" ColumnName="patronymic" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="museumModel.Country">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Exhibitions">
+            <EntityTypeMapping TypeName="museumModel.Exhibition">
+              <MappingFragment StoreEntitySet="Exhibitions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="start_date" ColumnName="start_date" />
+                <ScalarProperty Name="end_date" ColumnName="end_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InnerActions">
+            <EntityTypeMapping TypeName="museumModel.InnerAction">
+              <MappingFragment StoreEntitySet="InnerActions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="set_id" ColumnName="set_id" />
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="museumModel.Item">
+              <MappingFragment StoreEntitySet="Items">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="creation_date" ColumnName="creation_date" />
+                <ScalarProperty Name="creation_date_accuracy" ColumnName="creation_date_accuracy" />
+                <ScalarProperty Name="author_id" ColumnName="author_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OuterActions">
+            <EntityTypeMapping TypeName="museumModel.OuterAction">
+              <MappingFragment StoreEntitySet="OuterActions">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="set_id" ColumnName="set_id" />
+                <ScalarProperty Name="item_id" ColumnName="item_id" />
+                <ScalarProperty Name="company_id" ColumnName="company_id" />
+                <ScalarProperty Name="exhibition_id" ColumnName="exhibition_id" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sets">
+            <EntityTypeMapping TypeName="museumModel.Set">
+              <MappingFragment StoreEntitySet="Sets">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="title" ColumnName="title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ExhibitionItems" TypeName="museumModel.ExhibitionItems" StoreEntitySet="ExhibitionItems">
+            <EndProperty Name="Exhibitions">
+              <ScalarProperty Name="ID" ColumnName="exhibition_id" />
+            </EndProperty>
+            <EndProperty Name="Items">
+              <ScalarProperty Name="ID" ColumnName="item_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="ExhibitionSets" TypeName="museumModel.ExhibitionSets" StoreEntitySet="ExhibitionSets">
+            <EndProperty Name="Exhibitions">
+              <ScalarProperty Name="ID" ColumnName="exhibition_id" />
+            </EndProperty>
+            <EndProperty Name="Sets">
+              <ScalarProperty Name="ID" ColumnName="set_id" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
