@@ -97,6 +97,9 @@
     <Compile Include="Windows\ContactsWindow.xaml.cs">
       <DependentUpon>ContactsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\ItemEditWindow.xaml.cs">
+      <DependentUpon>ItemEditWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\ItemsWindow.xaml.cs">
       <DependentUpon>ItemsWindow.xaml</DependentUpon>
     </Compile>
@@ -113,6 +116,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\ContactsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ItemEditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

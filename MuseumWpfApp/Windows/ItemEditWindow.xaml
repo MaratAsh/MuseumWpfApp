@@ -1,0 +1,66 @@
+﻿<Window x:Class="MuseumWpfApp.Windows.ItemEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MuseumWpfApp.Windows"
+        mc:Ignorable="d"
+        Title="ItemEditWindow" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="EditorTitle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0 0 20 0"/>
+        </Style>
+        <Style x:Key="EditorComboBox" TargetType="ComboBox">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Style="{StaticResource EditorTitle}">ID</TextBlock>
+        <TextBlock Grid.Row="1" Style="{StaticResource EditorTitle}">Title</TextBlock>
+        <TextBlock Grid.Row="2" Style="{StaticResource EditorTitle}">Date</TextBlock>
+        <TextBlock Grid.Row="3" Style="{StaticResource EditorTitle}">Date Accuracy</TextBlock>
+        <TextBlock Grid.Row="4" Style="{StaticResource EditorTitle}">Author</TextBlock>
+
+        <TextBox x:Name="ItemID" Grid.Row="0" Grid.Column="1" IsReadOnly="True"
+                 Text="{Binding ID}"></TextBox>
+        <TextBox x:Name="ItemTitle" Grid.Row="1" Grid.Column="1"
+                 Text="{Binding title}"></TextBox>
+        <DatePicker x:Name="ItemDate" Grid.Row="2" Grid.Column="1"
+                 Text="{Binding creation_date}"></DatePicker>
+        <ComboBox x:Name="ItemDateAccuracyCB" Grid.Row="3" Grid.Column="1"
+                  SelectedItem="{Binding creation_date_accuracy}">
+        </ComboBox>
+        <ComboBox x:Name="ItemAuthor" Grid.Row="4" Grid.Column="1"
+                  SelectedItem="{Binding Author}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding lastname}"/>
+                        <TextBlock Text="{Binding firstname}"/>
+                        <TextBlock Text="{Binding patronymic}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <WrapPanel Grid.Row="5" Grid.ColumnSpan="2"
+                   HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="saveBtn" Click="saveBtn_Click" MinHeight="75" MinWidth="100">Save</Button>
+        </WrapPanel>
+    </Grid>
+</Window>

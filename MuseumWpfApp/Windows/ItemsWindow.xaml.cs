@@ -32,8 +32,8 @@ namespace MuseumWpfApp.Windows
             PaginationSlider.Value = _pagination;
             PaginationSlider.Maximum = items.Count();
 
-            _maxPage = Convert.ToInt32(Math.Ceiling( items.Count() * 1.0 / _pagination));
             _currentPage = 1;
+            setMaxPage();
             lastPage.Text = _maxPage.ToString();
             ReloadItems();
         }
@@ -100,15 +100,66 @@ namespace MuseumWpfApp.Windows
             _pagination = (int) PaginationSlider.Value;
             if (_context != null)
             {
-                _maxPage = Convert.ToInt32(Math.Ceiling(_context.Items.ToList().Count() * 1.0 / _pagination));
-                if (_currentPage > _maxPage)
-                {
-                    _currentPage = _maxPage;
-                }
+                setMaxPage();
                 currentPage.Text = _currentPage.ToString();
                 lastPage.Text = _maxPage.ToString();
                 ReloadItems();
             }
+        }
+
+        private void setMaxPage()
+        {
+            _maxPage = Convert.ToInt32(Math.Ceiling(_context.Items.ToList().Count() * 1.0 / _pagination));
+            if (_currentPage > _maxPage)
+            {
+                _currentPage = _maxPage;
+            }
+        }
+
+        private void deleteBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender.GetType().Name != "Button")
+                return;
+            Item item = (Item) ((Button)sender).DataContext;
+            if (MessageBox.Show(String.Format(
+                "Вы действительно хотите удалить '{0}'?", item.title),
+                "Подтвердите действие", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                _context.Items.Remove(item);
+                _context.SaveChanges();
+                setMaxPage();
+                ReloadItems();
+            }
+        }
+
+        private void editBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender.GetType().Name != "Button")
+                return;
+            Item item = (Item)((Button)sender).DataContext;
+            ItemEditWindow w = new ItemEditWindow(_context);
+            w.setItem(item);
+            w.setAction(editedItem);
+            w.Show();
+        }
+        private void editedItem(Item item)
+        {
+            _context.SaveChanges();
+            ReloadItems();
+        }
+
+        private void createBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Item item = new Item();
+            ItemEditWindow w = new ItemEditWindow(_context);
+            w.setItem(item);
+            w.setAction(createdItem);
+            w.Show();
+        }
+        private void createdItem(Item item)
+        {
+            _context.Items.Add(item);
+            _context.SaveChanges();
         }
     }
 }
