@@ -36,6 +36,10 @@
                 <Button x:Name="ContactsBtn" Style="{StaticResource Button}" Click="ContactsBtn_Click">Contacts</Button>
                 <Button Name="ItemsBtn" Style="{StaticResource Button}" Click="ItemsBtn_Click">Items</Button>
             </StackPanel>
+            <TextBlock Style="{StaticResource HeaderText}">Export</TextBlock>
+            <StackPanel Orientation="Horizontal" Style="{StaticResource ButtonHandler}">
+                <Button Name="ExportBtn" Style="{StaticResource Button}" Click="ExportBtn_Click">Open Export Window</Button>
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

@@ -160,6 +160,7 @@ namespace MuseumWpfApp.Windows
         {
             _context.Items.Add(item);
             _context.SaveChanges();
+            ReloadItems();
         }
     }
 }

@@ -35,5 +35,10 @@ namespace MuseumWpfApp
         {
             (new Windows.ItemsWindow()).Show();
         }
+
+        private void ExportBtn_Click(object sender, RoutedEventArgs e)
+        {
+            (new Windows.ExportWindow()).Show();
+        }
     }
 }

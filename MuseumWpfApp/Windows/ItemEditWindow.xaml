@@ -24,25 +24,23 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="0.5*"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Style="{StaticResource EditorTitle}">ID</TextBlock>
         <TextBlock Grid.Row="1" Style="{StaticResource EditorTitle}">Title</TextBlock>
         <TextBlock Grid.Row="2" Style="{StaticResource EditorTitle}">Date</TextBlock>
         <TextBlock Grid.Row="3" Style="{StaticResource EditorTitle}">Date Accuracy</TextBlock>
         <TextBlock Grid.Row="4" Style="{StaticResource EditorTitle}">Author</TextBlock>
 
-        <TextBox x:Name="ItemID" Grid.Row="0" Grid.Column="1" IsReadOnly="True"
-                 Text="{Binding ID}"></TextBox>
+        
         <TextBox x:Name="ItemTitle" Grid.Row="1" Grid.Column="1"
                  Text="{Binding title}"></TextBox>
         <DatePicker x:Name="ItemDate" Grid.Row="2" Grid.Column="1"
-                 Text="{Binding creation_date}"></DatePicker>
+                 SelectedDate="{Binding creation_date}"></DatePicker>
         <ComboBox x:Name="ItemDateAccuracyCB" Grid.Row="3" Grid.Column="1"
                   SelectedItem="{Binding creation_date_accuracy}">
         </ComboBox>
